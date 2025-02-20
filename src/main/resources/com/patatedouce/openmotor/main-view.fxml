@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="TOP_CENTER" prefHeight="543.0" prefWidth="921.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.patatedouce.openmotor.MainController">
+    <padding>
+        <Insets bottom="20.0" />
+    </padding>
+   <children>
+      <MenuBar prefHeight="25.0" prefWidth="906.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Fichier">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Fichier des sauvegardes" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Voir">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#openSimu" onMenuValidation="#openSimu" text="Programmation de chaine" />
+                  <MenuItem mnemonicParsing="false" text="Logs" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <VBox prefHeight="522.0" prefWidth="881.0" spacing="20.0">
+         <children>
+            <VBox prefHeight="58.0" prefWidth="881.0">
+               <children>
+                  <Label text="Connexion">
+                     <font>
+                        <Font name="Alef Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="611.0">
+                     <children>
+                        <Label prefHeight="17.0" prefWidth="65.0" text="Port COM" />
+                        <ComboBox fx:id="portList" prefHeight="25.0" prefWidth="123.0" promptText="Selectionner" />
+                        <Button mnemonicParsing="false" onAction="#initialize" prefHeight="25.0" prefWidth="74.0" text="Refresh" />
+                        <Button defaultButton="true" mnemonicParsing="false" onAction="#SerialOpenBtn" text="EN" textFill="#5b73eb">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin></Button>
+                        <Button layoutX="142.0" layoutY="13.0" mnemonicParsing="false" onAction="#SerialCloseBtn" text="HS" textFill="#8d8d3f" />
+                        <TextField fx:id="com_status" alignment="CENTER" editable="false" prefHeight="25.0" prefWidth="52.0" style="-fx-background-color: red; -fx-text-fill: white;" text="NON">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </VBox>
+            <Separator prefHeight="7.0" prefWidth="355.0" />
+            <HBox disable="true" prefHeight="308.0" prefWidth="905.0">
+               <children>
+                  <VBox prefHeight="303.0" prefWidth="374.0" spacing="5.0">
+                     <children>
+                        <Label prefHeight="23.0" prefWidth="109.0" text="Commandes">
+                           <font>
+                              <Font name="Alef Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <HBox alignment="CENTER_LEFT" prefHeight="18.0" prefWidth="355.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="65.0" text="Duty Cycle" />
+                              <Slider blockIncrement="1.0" majorTickUnit="20.0" minorTickCount="4" prefHeight="38.0" prefWidth="261.0" showTickLabels="true" showTickMarks="true" />
+                              <Label prefHeight="17.0" prefWidth="33.0" text="100%" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="18.0" prefWidth="355.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="65.0" text="Update" />
+                              <CheckBox mnemonicParsing="false" prefHeight="17.0" prefWidth="51.0" selected="true" text="RT" />
+                              <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="203.0" text="Envoi" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="31.0" prefWidth="355.0">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="182.0">
+                                 <children>
+                                    <Label prefHeight="17.0" prefWidth="73.0" text="Vmax" />
+                                    <TextField prefHeight="25.0" prefWidth="43.0" promptText="80" text="80" />
+                                    <Label text="km/h" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="182.0">
+                                 <children>
+                                    <Label prefHeight="17.0" prefWidth="38.0" text="Vsim" />
+                                    <TextField editable="false" prefHeight="25.0" prefWidth="36.0" promptText="80" text="0" />
+                                    <Label text="km/h" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="33.0" prefHeight="18.0" prefWidth="355.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="73.0" text="Duty diviser" />
+                              <TextField prefHeight="25.0" prefWidth="177.0" promptText="Duty Cycle / Duty Diviser" text="1" />
+                              <Button mnemonicParsing="false" text="UP">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin></Button>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="51.0" prefHeight="18.0" prefWidth="355.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="73.0" text="Duty start" />
+                              <RadioButton mnemonicParsing="false" prefHeight="17.0" prefWidth="26.0" />
+                              <TextField prefHeight="25.0" prefWidth="150.0" promptText="Duty Cycle + Duty Start" text="0" />
+                              <RadioButton mnemonicParsing="false" prefHeight="17.0" prefWidth="47.0" selected="true" text="Off">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </RadioButton>
+                              <Button mnemonicParsing="false" text="UP" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="76.0" prefHeight="18.0" prefWidth="355.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="73.0" text="Clkdiv" />
+                              <Label text="0&lt;" />
+                              <TextField prefHeight="25.0" prefWidth="41.0" promptText="1.0" text="1.0" />
+                              <Label prefHeight="17.0" prefWidth="53.0" text="&lt;=256" />
+                              <Button mnemonicParsing="false" text="UP" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="150.0" prefHeight="37.0" prefWidth="355.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="73.0" text="Ajust PWM" />
+                              <RadioButton mnemonicParsing="false" prefHeight="17.0" prefWidth="89.0" selected="true" text="Constante" />
+                              <RadioButton disable="true" layoutX="83.0" layoutY="10.0" mnemonicParsing="false" text="Prop" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="175.0" prefHeight="18.0" prefWidth="355.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="73.0" text="Freq PWM" />
+                              <TextField prefHeight="25.0" prefWidth="66.0" promptText="1000" text="1000" />
+                              <Label prefHeight="17.0" prefWidth="31.0" text="Hz" />
+                              <Button mnemonicParsing="false" text="UP" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="192.0" prefHeight="18.0" prefWidth="355.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="73.0" text="Freq entrée" />
+                              <TextField prefHeight="25.0" prefWidth="62.0" promptText="1000" text="1000" />
+                              <Label prefHeight="17.0" prefWidth="31.0" text="Hz" />
+                              <Label layoutX="10.0" layoutY="14.0" prefHeight="17.0" prefWidth="73.0" text="Freq sortie" />
+                              <TextField layoutX="83.0" layoutY="10.0" prefHeight="25.0" prefWidth="55.0" promptText="1000" text="5000" />
+                              <Label layoutX="149.0" layoutY="14.0" prefHeight="17.0" prefWidth="31.0" text="Hz" />
+                              <Button mnemonicParsing="false" text="UP" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="238.0" prefHeight="18.0" prefWidth="355.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="73.0" text="Vit entrée" />
+                              <TextField prefHeight="25.0" prefWidth="49.0" promptText="30" text="30" />
+                              <Label prefHeight="17.0" prefWidth="31.0" text="km/h" />
+                              <Label layoutX="10.0" layoutY="14.0" prefHeight="17.0" prefWidth="73.0" text="Vit sortie" />
+                              <TextField layoutX="83.0" layoutY="10.0" prefHeight="25.0" prefWidth="46.0" promptText="60" text="60" />
+                              <Label layoutX="149.0" layoutY="14.0" prefHeight="17.0" prefWidth="31.0" text="km/h" />
+                              <Button mnemonicParsing="false" text="UP" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="192.0" prefHeight="18.0" prefWidth="355.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="80.0" text="Actual PWM" />
+                              <TextField editable="false" prefHeight="25.0" prefWidth="66.0" promptText="1000" text="1000" />
+                              <Label prefHeight="17.0" prefWidth="31.0" text="Hz" />
+                           </children>
+                        </HBox>
+                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="365.0" text="Sauvegarder config" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="328.0" prefWidth="509.0">
+                     <children>
+                        <Label prefHeight="23.0" prefWidth="109.0" text="Sauvegardes">
+                           <font>
+                              <Font name="Alef Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <TableView prefHeight="138.0" prefWidth="508.0">
+                          <columns>
+                            <TableColumn prefWidth="41.0" text="Index" />
+                            <TableColumn prefWidth="67.0" text="DtSt" />
+                              <TableColumn prefWidth="67.0" text="DtDiv" />
+                              <TableColumn prefWidth="50.0" text="Clkdiv" />
+                              <TableColumn prefWidth="45.0" text="Vit" />
+                              <TableColumn prefWidth="74.0" text="Prop PWM" />
+                              <TableColumn prefWidth="82.0" text="CurrentPWM" />
+                              <TableColumn prefWidth="81.0" text="PWM Freq" />
+                          </columns>
+                        </TableView>
+                        <HBox prefHeight="202.0" prefWidth="508.0">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="329.0">
+                                 <children>
+                                    <Label prefHeight="17.0" prefWidth="77.0" text="Supprimer n°" />
+                                    <TextField prefHeight="25.0" prefWidth="35.0" />
+                                    <Button mnemonicParsing="false" text="Confirmer">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="329.0">
+                                 <children>
+                                    <Label prefHeight="17.0" prefWidth="77.0" text="Appliquer n°" />
+                                    <TextField prefHeight="25.0" prefWidth="35.0" />
+                                    <Button mnemonicParsing="false" text="Confirmer">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="510.0" text="Voir les sauvegardes détaillées" />
+                     </children>
+                  </VBox>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
+         </children>
+         <VBox.margin>
+            <Insets left="20.0" right="20.0" />
+         </VBox.margin>
+      </VBox>
+   </children>
+</VBox>

@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="TOP_CENTER" prefHeight="797.0" prefWidth="921.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.patatedouce.openmotor.SimuControler">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+   <children>
+      <VBox prefHeight="763.0" prefWidth="881.0" spacing="20.0">
+         <children>
+            <HBox prefHeight="168.0" prefWidth="881.0">
+               <children>
+                  <VBox prefHeight="165.0" prefWidth="540.0">
+                     <children>
+                        <Label prefHeight="23.0" prefWidth="251.0" text="Chaines programmées">
+                           <font>
+                              <Font name="Alef Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <TableView prefHeight="105.0" prefWidth="540.0">
+                           <columns>
+                              <TableColumn prefWidth="50.0" text="Index" />
+                              <TableColumn prefWidth="325.0" text="Nom" />
+                              <TableColumn minWidth="0.0" prefWidth="51.0" text="Etapes" />
+                              <TableColumn minWidth="0.0" prefWidth="54.0" text="Vmax" />
+                              <TableColumn minWidth="0.0" prefWidth="59.0" text="Start" />
+                           </columns>
+                        </TableView>
+                        <VBox alignment="CENTER_LEFT" prefHeight="41.0" prefWidth="210.0">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="540.0">
+                                 <children>
+                                    <Label prefHeight="17.0" prefWidth="77.0" text="Supprimer n°" />
+                                    <TextField prefHeight="25.0" prefWidth="35.0" />
+                                    <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="419.0" text="Confirmer">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox layoutX="10.0" layoutY="-10.0" prefHeight="168.0" prefWidth="330.0" spacing="20.0">
+                     <children>
+                        <Label prefHeight="23.0" prefWidth="253.0" text="Paramètre chaine">
+                           <font>
+                              <Font name="Alef Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="290.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="73.0" text="Vitesse max" />
+                              <TextField prefHeight="25.0" prefWidth="49.0" promptText="80" text="80" />
+                              <Label prefHeight="17.0" prefWidth="31.0" text="km/h" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="51.0" prefHeight="0.0" prefWidth="290.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="73.0" text="Duty start" />
+                              <RadioButton mnemonicParsing="false" prefHeight="17.0" prefWidth="26.0" />
+                              <TextField prefHeight="25.0" prefWidth="150.0" promptText="Duty Cycle + Duty Start" text="0" />
+                              <RadioButton mnemonicParsing="false" prefHeight="17.0" prefWidth="47.0" selected="true" text="Off">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </RadioButton>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="53.0" prefHeight="25.0" prefWidth="308.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="47.0" text="Nom" />
+                              <TextField prefHeight="25.0" prefWidth="282.0" promptText="Décrire la chaine" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="881.0">
+               <children>
+                  <RadioButton mnemonicParsing="false" prefHeight="17.0" prefWidth="95.0" selected="true" text="Nouveau" />
+                  <RadioButton mnemonicParsing="false" prefHeight="17.0" prefWidth="70.0" text="Modifier" />
+                  <Label text="chaine index n°" />
+                  <TextField prefHeight="25.0" prefWidth="31.0" promptText="0" />
+                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="276.0" text="Afficher">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button layoutX="307.0" layoutY="11.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="307.0" text="Valider" />
+               </children>
+            </HBox>
+            <HBox prefHeight="185.0" prefWidth="881.0">
+               <children>
+                  <VBox prefHeight="213.0" prefWidth="544.0" spacing="10.0">
+                     <children>
+                        <Label prefHeight="23.0" prefWidth="251.0" text="Etapes programmées">
+                           <font>
+                              <Font name="Alef Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <TableView prefHeight="105.0" prefWidth="535.0">
+                           <columns>
+                              <TableColumn prefWidth="44.0" text="Index" />
+                              <TableColumn prefWidth="138.0" text="Label" />
+                              <TableColumn prefWidth="33.0" text="Vd" />
+                              <TableColumn prefWidth="29.0" text="Vf" />
+                              <TableColumn prefWidth="61.0" text="PWMd" />
+                              <TableColumn prefWidth="58.0" text="PWMf" />
+                              <TableColumn prefWidth="61.0" text="ClkDivd" />
+                              <TableColumn prefWidth="58.0" text="ClkDivf" />
+                              <TableColumn prefWidth="61.0" text="div" />
+                           </columns>
+                        </TableView>
+                        <VBox alignment="CENTER_LEFT" prefHeight="41.0" prefWidth="210.0">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="329.0">
+                                 <children>
+                                    <Label prefHeight="17.0" prefWidth="77.0" text="Supprimer n°" />
+                                    <TextField prefHeight="25.0" prefWidth="35.0" />
+                                    <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="422.0" text="Confirmer">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox prefHeight="228.0" prefWidth="326.0" spacing="10.0">
+                     <children>
+                        <Label prefHeight="23.0" prefWidth="253.0" text="Programmation étape chaine">
+                           <font>
+                              <Font name="Alef Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <HBox alignment="CENTER_LEFT" prefHeight="3.0" prefWidth="326.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="73.0" text="Vit départ" />
+                              <TextField prefHeight="25.0" prefWidth="49.0" promptText="30" text="0" />
+                              <Label prefHeight="17.0" prefWidth="31.0" text="km/h" />
+                              <Label layoutX="10.0" layoutY="14.0" prefHeight="17.0" prefWidth="73.0" text="Vit finale (ex)" />
+                              <TextField layoutX="83.0" layoutY="10.0" prefHeight="25.0" prefWidth="46.0" promptText="60" text="20" />
+                              <Label layoutX="149.0" layoutY="14.0" prefHeight="17.0" prefWidth="31.0" text="km/h" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="290.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="73.0" text="Duty diviser" />
+                              <TextField prefHeight="25.0" prefWidth="174.0" promptText="Duty Cycle / Duty Diviser" text="1" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="78.0" prefHeight="0.0" prefWidth="326.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="76.0" text="Clkdiv départ" />
+                              <Label text="0&lt;" />
+                              <TextField prefHeight="25.0" prefWidth="41.0" promptText="1.0" text="1.0" />
+                              <Label prefHeight="17.0" prefWidth="53.0" text="&lt;=256" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="326.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="76.0" text="Clkdiv finale" />
+                              <Label text="0&lt;" />
+                              <TextField prefHeight="25.0" prefWidth="41.0" promptText="1.0" text="1.0" />
+                              <Label prefHeight="17.0" prefWidth="53.0" text="&lt;=256" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="192.0" prefHeight="0.0" prefWidth="326.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="73.0" text="Freq départ" />
+                              <TextField prefHeight="25.0" prefWidth="62.0" promptText="1000" text="1000" />
+                              <Label prefHeight="17.0" prefWidth="31.0" text="Hz" />
+                              <Label layoutX="10.0" layoutY="14.0" prefHeight="17.0" prefWidth="73.0" text="Freq finale" />
+                              <TextField layoutX="83.0" layoutY="10.0" prefHeight="25.0" prefWidth="55.0" promptText="1000" text="5000" />
+                              <Label layoutX="149.0" layoutY="14.0" prefHeight="17.0" prefWidth="31.0" text="Hz" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="881.0">
+               <children>
+                  <RadioButton mnemonicParsing="false" prefHeight="17.0" prefWidth="95.0" selected="true" text="Nouveau" />
+                  <RadioButton mnemonicParsing="false" prefHeight="17.0" prefWidth="70.0" text="Modifier" />
+                  <Label text="étape index n°" />
+                  <TextField prefHeight="25.0" prefWidth="31.0" promptText="0" />
+                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="286.0" text="Afficher">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button layoutX="303.0" layoutY="11.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="302.0" text="Valider" />
+               </children>
+            </HBox>
+            <Separator prefWidth="200.0" />
+            <VBox prefHeight="235.0" prefWidth="881.0">
+               <children>
+                  <Label prefHeight="23.0" prefWidth="251.0" text="Simulation chaine">
+                     <font>
+                        <Font name="Alef Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <HBox prefHeight="115.0" prefWidth="881.0">
+                     <children>
+                        <VBox prefHeight="88.0" prefWidth="556.0">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="832.0">
+                                 <children>
+                                    <Label prefHeight="17.0" prefWidth="100.0" text="Mission vitesse" />
+                                    <Slider blockIncrement="1.0" majorTickUnit="20.0" minorTickCount="4" prefHeight="38.0" prefWidth="261.0" showTickLabels="true" showTickMarks="true" />
+                                    <Label prefHeight="17.0" prefWidth="33.0" text="100%" />
+                                    <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="138.0">
+                                       <children>
+                                          <Label prefHeight="17.0" prefWidth="53.0" text="Vitesse" />
+                                          <TextField editable="false" prefHeight="25.0" prefWidth="49.0" promptText="Vitesse" text="0" />
+                                          <Label prefHeight="17.0" prefWidth="31.0" text="km/h" />
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets left="20.0" />
+                                       </HBox.margin>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="526.0">
+                                 <children>
+                                    <Label prefHeight="17.0" prefWidth="71.0" text="Appliquer n°" />
+                                    <TextField prefHeight="25.0" prefWidth="35.0" />
+                                    <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="102.0" text="Confirmer">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Label layoutX="10.0" layoutY="19.0" prefHeight="17.0" prefWidth="65.0" text="En cours: n°">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField editable="false" layoutX="81.0" layoutY="15.0" prefHeight="25.0" prefWidth="35.0" />
+                                    <Button layoutX="126.0" layoutY="15.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="102.0" text="Stop">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <Separator orientation="VERTICAL" prefHeight="88.0" prefWidth="14.0" />
+                        <VBox alignment="CENTER_LEFT" disable="true" layoutX="10.0" layoutY="10.0" prefHeight="96.0" prefWidth="315.0" spacing="10.0">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" prefHeight="15.0" prefWidth="314.0" spacing="10.0">
+                                 <children>
+                                    <CheckBox mnemonicParsing="false" text="Vitesse automatique" />
+                                    <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Programmer vitesse" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="29.0" prefWidth="315.0" spacing="5.0">
+                                 <children>
+                                    <Label prefHeight="17.0" prefWidth="81.0" text="Selectionné: n°" />
+                                    <TextField prefHeight="25.0" prefWidth="46.0" promptText="0" text="0" />
+                                    <Label layoutX="10.0" layoutY="24.0" prefHeight="17.0" prefWidth="91.0" text="Nombre étapes:" />
+                                    <TextField editable="false" layoutX="104.0" layoutY="20.0" prefHeight="25.0" prefWidth="41.0" promptText="0" text="0" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="73.0" prefHeight="20.0" prefWidth="314.0" spacing="5.0">
+                                 <children>
+                                    <Label prefHeight="17.0" prefWidth="110.0" text="Vmax programme:" />
+                                    <TextField prefHeight="25.0" prefWidth="46.0" promptText="0" text="0" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="21.0" prefWidth="881.0" spacing="10.0">
+                     <children>
+                        <TextField alignment="CENTER" editable="false" prefHeight="25.0" prefWidth="158.0" text="Simulation en cours" />
+                        <TextField alignment="CENTER" editable="false" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="158.0" text="Défaut étape" />
+                        <TextField alignment="CENTER" editable="false" layoutX="168.0" layoutY="10.0" prefHeight="25.0" prefWidth="158.0" text="Pas d'étape" />
+                        <TextField alignment="CENTER" editable="false" layoutX="540.0" layoutY="10.0" prefHeight="25.0" prefWidth="158.0" text="Vitesse auto" />
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <TableView prefHeight="58.0" prefWidth="881.0">
+                     <columns>
+                        <TableColumn prefWidth="44.0" text="Index" />
+                        <TableColumn prefWidth="53.0" text="Clkdiv" />
+                        <TableColumn prefWidth="58.0" text="PWM" />
+                        <TableColumn prefWidth="58.0" text="Duty Div" />
+                        <TableColumn prefWidth="82.0" text="Duty Cycle" />
+                        <TableColumn prefWidth="152.0" text="Label" />
+                        <TableColumn prefWidth="176.0" text="Label" />
+                     </columns>
+                  </TableView>
+               </children>
+            </VBox>
+         </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </VBox>
+   </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+</VBox>
