@@ -23,10 +23,10 @@
                         </Label>
                         <TableView prefHeight="105.0" prefWidth="570.0">
                            <columns>
-                              <TableColumn prefWidth="50.0" text="Index" />
-                              <TableColumn prefWidth="287.0" text="Label" />
-                              <TableColumn minWidth="0.0" prefWidth="60.0" text="Nombre" />
-                              <TableColumn minWidth="0.0" prefWidth="55.0" text="Durée" />
+                              <TableColumn editable="false" prefWidth="50.0" sortable="false" text="Index" />
+                              <TableColumn editable="false" prefWidth="287.0" sortable="false" text="Label" />
+                              <TableColumn editable="false" minWidth="0.0" prefWidth="60.0" sortable="false" text="Nombre" />
+                              <TableColumn editable="false" minWidth="0.0" prefWidth="55.0" sortable="false" text="Durée" />
                            </columns>
                         </TableView>
                         <VBox alignment="CENTER_LEFT" prefHeight="41.0" prefWidth="210.0">
@@ -95,11 +95,11 @@
                         </Label>
                         <TableView prefHeight="105.0" prefWidth="535.0">
                            <columns>
-                              <TableColumn prefWidth="44.0" text="Index" />
-                              <TableColumn prefWidth="267.0" text="Label" />
-                              <TableColumn minWidth="0.0" prefWidth="47.0" text="Vd" />
-                              <TableColumn minWidth="0.0" prefWidth="49.0" text="Vf" />
-                              <TableColumn prefWidth="42.0" text="Durée" />
+                              <TableColumn editable="false" prefWidth="44.0" sortable="false" text="Index" />
+                              <TableColumn editable="false" prefWidth="267.0" sortable="false" text="Label" />
+                              <TableColumn editable="false" minWidth="0.0" prefWidth="47.0" sortable="false" text="Vd" />
+                              <TableColumn editable="false" minWidth="0.0" prefWidth="49.0" sortable="false" text="Vf" />
+                              <TableColumn editable="false" prefWidth="42.0" sortable="false" text="Durée" />
                            </columns>
                         </TableView>
                         <VBox alignment="CENTER_LEFT" prefHeight="41.0" prefWidth="210.0">

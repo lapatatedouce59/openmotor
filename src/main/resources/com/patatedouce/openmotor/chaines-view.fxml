@@ -21,13 +21,13 @@
                               <Font name="Alef Bold" size="16.0" />
                            </font>
                         </Label>
-                        <TableView prefHeight="105.0" prefWidth="540.0">
+                        <TableView fx:id="tableChaineList" prefHeight="105.0" prefWidth="540.0">
                            <columns>
-                              <TableColumn prefWidth="50.0" text="Index" />
-                              <TableColumn prefWidth="325.0" text="Nom" />
-                              <TableColumn minWidth="0.0" prefWidth="51.0" text="Etapes" />
-                              <TableColumn minWidth="0.0" prefWidth="54.0" text="Vmax" />
-                              <TableColumn minWidth="0.0" prefWidth="59.0" text="Start" />
+                              <TableColumn fx:id="indexColumn" editable="false" prefWidth="50.0" sortable="false" text="Index" />
+                              <TableColumn fx:id="nomColumn" editable="false" prefWidth="325.0" sortable="false" text="Nom" />
+                              <TableColumn fx:id="etapeColumn" editable="false" minWidth="0.0" prefWidth="51.0" sortable="false" text="Etapes" />
+                              <TableColumn fx:id="vmaxColumn" editable="false" minWidth="0.0" prefWidth="54.0" sortable="false" text="Vmax" />
+                              <TableColumn fx:id="startColumn" editable="false" minWidth="0.0" prefWidth="56.0" sortable="false" text="Start" />
                            </columns>
                         </TableView>
                         <VBox alignment="CENTER_LEFT" prefHeight="41.0" prefWidth="210.0">
@@ -35,8 +35,8 @@
                               <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="540.0">
                                  <children>
                                     <Label prefHeight="17.0" prefWidth="77.0" text="Supprimer n°" />
-                                    <TextField prefHeight="25.0" prefWidth="35.0" />
-                                    <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="419.0" text="Confirmer">
+                                    <TextField fx:id="delete_chaine_index_input" prefHeight="25.0" prefWidth="35.0" />
+                                    <Button mnemonicParsing="false" onAction="#DeleteChaine" prefHeight="25.0" prefWidth="419.0" text="Confirmer">
                                        <HBox.margin>
                                           <Insets left="10.0" />
                                        </HBox.margin>
@@ -60,16 +60,19 @@
                         <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="290.0">
                            <children>
                               <Label prefHeight="17.0" prefWidth="73.0" text="Vitesse max" />
-                              <TextField prefHeight="25.0" prefWidth="49.0" promptText="80" text="80" />
+                              <TextField fx:id="param_chaine_vmax" prefHeight="25.0" prefWidth="49.0" promptText="80" text="80" />
                               <Label prefHeight="17.0" prefWidth="31.0" text="km/h" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="51.0" prefHeight="0.0" prefWidth="290.0">
                            <children>
                               <Label prefHeight="17.0" prefWidth="73.0" text="Duty start" />
-                              <RadioButton mnemonicParsing="false" prefHeight="17.0" prefWidth="26.0" />
-                              <TextField prefHeight="25.0" prefWidth="150.0" promptText="Duty Cycle + Duty Start" text="0" />
-                              <RadioButton mnemonicParsing="false" prefHeight="17.0" prefWidth="47.0" selected="true" text="Off">
+                              <RadioButton fx:id="param_chaine_duty_start_radio_on" mnemonicParsing="false" prefHeight="17.0" prefWidth="26.0">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="param_chaine_duty_start_radio" />
+                                 </toggleGroup></RadioButton>
+                              <TextField fx:id="param_chaine_duty_start" prefHeight="25.0" prefWidth="150.0" promptText="Duty Cycle + Duty Start" text="0" />
+                              <RadioButton fx:id="param_chaine_duty_start_radio_off" mnemonicParsing="false" prefHeight="17.0" prefWidth="47.0" selected="true" text="Off" toggleGroup="$param_chaine_duty_start_radio">
                                  <HBox.margin>
                                     <Insets left="10.0" />
                                  </HBox.margin>
@@ -79,7 +82,7 @@
                         <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="53.0" prefHeight="25.0" prefWidth="308.0">
                            <children>
                               <Label prefHeight="17.0" prefWidth="47.0" text="Nom" />
-                              <TextField prefHeight="25.0" prefWidth="282.0" promptText="Décrire la chaine" />
+                              <TextField fx:id="param_chaine_name" prefHeight="25.0" prefWidth="282.0" promptText="Décrire la chaine" />
                            </children>
                         </HBox>
                      </children>
@@ -88,16 +91,19 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="881.0">
                <children>
-                  <RadioButton mnemonicParsing="false" prefHeight="17.0" prefWidth="95.0" selected="true" text="Nouveau" />
-                  <RadioButton mnemonicParsing="false" prefHeight="17.0" prefWidth="70.0" text="Modifier" />
-                  <Label text="chaine index n°" />
-                  <TextField prefHeight="25.0" prefWidth="31.0" promptText="0" />
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="276.0" text="Afficher">
+                  <RadioButton fx:id="chain_prog_radios_new" mnemonicParsing="false" prefHeight="17.0" prefWidth="95.0" selected="true" text="Nouveau">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="chain_prog_radios" />
+                     </toggleGroup></RadioButton>
+                  <RadioButton fx:id="chain_prog_radios_mod" mnemonicParsing="false" prefHeight="17.0" prefWidth="70.0" text="Modifier" toggleGroup="$chain_prog_radios" />
+                  <Label prefHeight="17.0" prefWidth="92.0" text="chaine index n°" />
+                  <TextField fx:id="modify_chaine_index_input" prefHeight="25.0" prefWidth="31.0" promptText="0" />
+                  <Button mnemonicParsing="false" onAction="#ShowChaineDetails" prefHeight="25.0" prefWidth="275.0" text="Afficher infos chaine">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button layoutX="307.0" layoutY="11.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="307.0" text="Valider" />
+                  <Button layoutX="307.0" layoutY="11.0" mnemonicParsing="false" onAction="#SaveChaineDetails" prefHeight="25.0" prefWidth="297.0" text="Valider" />
                </children>
             </HBox>
             <HBox prefHeight="185.0" prefWidth="881.0">
@@ -109,17 +115,17 @@
                               <Font name="Alef Bold" size="16.0" />
                            </font>
                         </Label>
-                        <TableView prefHeight="105.0" prefWidth="535.0">
+                        <TableView fx:id="tableStep" prefHeight="153.0" prefWidth="544.0">
                            <columns>
-                              <TableColumn prefWidth="44.0" text="Index" />
-                              <TableColumn prefWidth="138.0" text="Label" />
-                              <TableColumn prefWidth="33.0" text="Vd" />
-                              <TableColumn prefWidth="29.0" text="Vf" />
-                              <TableColumn prefWidth="61.0" text="PWMd" />
-                              <TableColumn prefWidth="58.0" text="PWMf" />
-                              <TableColumn prefWidth="61.0" text="ClkDivd" />
-                              <TableColumn prefWidth="58.0" text="ClkDivf" />
-                              <TableColumn prefWidth="61.0" text="div" />
+                              <TableColumn fx:id="indexStepColumn" editable="false" prefWidth="44.0" sortable="false" text="Index" />
+                              <TableColumn fx:id="labelStepColumn" editable="false" prefWidth="129.0" sortable="false" text="Label" />
+                              <TableColumn fx:id="vdStepColumn" editable="false" prefWidth="39.0" sortable="false" text="Vd" />
+                              <TableColumn fx:id="vfStepColumn" editable="false" prefWidth="32.0" sortable="false" text="Vf" />
+                              <TableColumn fx:id="pwmdStepColumn" editable="false" prefWidth="61.0" sortable="false" text="PWMd" />
+                              <TableColumn fx:id="pwmfStepColumn" editable="false" prefWidth="58.0" sortable="false" text="PWMf" />
+                              <TableColumn fx:id="clkdivdStepColumn" editable="false" prefWidth="61.0" sortable="false" text="ClkDivd" />
+                              <TableColumn fx:id="clkdivfStepColumn" editable="false" prefWidth="58.0" sortable="false" text="ClkDivf" />
+                              <TableColumn fx:id="divStepColumn" editable="false" prefWidth="59.0" sortable="false" text="div" />
                            </columns>
                         </TableView>
                         <VBox alignment="CENTER_LEFT" prefHeight="41.0" prefWidth="210.0">
@@ -127,8 +133,8 @@
                               <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="329.0">
                                  <children>
                                     <Label prefHeight="17.0" prefWidth="77.0" text="Supprimer n°" />
-                                    <TextField prefHeight="25.0" prefWidth="35.0" />
-                                    <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="422.0" text="Confirmer">
+                                    <TextField fx:id="delete_step_index_input" prefHeight="25.0" prefWidth="35.0" />
+                                    <Button mnemonicParsing="false" onAction="#DeleteStep" prefHeight="25.0" prefWidth="422.0" text="Confirmer">
                                        <HBox.margin>
                                           <Insets left="10.0" />
                                        </HBox.margin>
@@ -152,24 +158,30 @@
                         <HBox alignment="CENTER_LEFT" prefHeight="3.0" prefWidth="326.0">
                            <children>
                               <Label prefHeight="17.0" prefWidth="73.0" text="Vit départ" />
-                              <TextField prefHeight="25.0" prefWidth="49.0" promptText="30" text="0" />
+                              <TextField fx:id="param_step_vd" prefHeight="25.0" prefWidth="49.0" promptText="30" text="0" />
                               <Label prefHeight="17.0" prefWidth="31.0" text="km/h" />
                               <Label layoutX="10.0" layoutY="14.0" prefHeight="17.0" prefWidth="73.0" text="Vit finale (ex)" />
-                              <TextField layoutX="83.0" layoutY="10.0" prefHeight="25.0" prefWidth="46.0" promptText="60" text="20" />
+                              <TextField fx:id="param_step_vf" layoutX="83.0" layoutY="10.0" prefHeight="25.0" prefWidth="46.0" promptText="60" text="20" />
                               <Label layoutX="149.0" layoutY="14.0" prefHeight="17.0" prefWidth="31.0" text="km/h" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="290.0">
                            <children>
                               <Label prefHeight="17.0" prefWidth="73.0" text="Duty diviser" />
-                              <TextField prefHeight="25.0" prefWidth="174.0" promptText="Duty Cycle / Duty Diviser" text="1" />
+                              <TextField fx:id="param_step_div" prefHeight="25.0" prefWidth="174.0" promptText="Duty Cycle / Duty Diviser" text="1" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="78.0" prefHeight="0.0" prefWidth="290.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="41.0" text="Label" />
+                              <TextField fx:id="param_step_label" prefHeight="25.0" prefWidth="282.0" promptText="Décrire l'étape" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="78.0" prefHeight="0.0" prefWidth="326.0">
                            <children>
                               <Label prefHeight="17.0" prefWidth="76.0" text="Clkdiv départ" />
                               <Label text="0&lt;" />
-                              <TextField prefHeight="25.0" prefWidth="41.0" promptText="1.0" text="1.0" />
+                              <TextField fx:id="param_step_clkdivd" prefHeight="25.0" prefWidth="41.0" promptText="1.0" text="1.0" />
                               <Label prefHeight="17.0" prefWidth="53.0" text="&lt;=256" />
                            </children>
                         </HBox>
@@ -177,17 +189,17 @@
                            <children>
                               <Label prefHeight="17.0" prefWidth="76.0" text="Clkdiv finale" />
                               <Label text="0&lt;" />
-                              <TextField prefHeight="25.0" prefWidth="41.0" promptText="1.0" text="1.0" />
+                              <TextField fx:id="param_step_clkdivf" prefHeight="25.0" prefWidth="41.0" promptText="1.0" text="1.0" />
                               <Label prefHeight="17.0" prefWidth="53.0" text="&lt;=256" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="192.0" prefHeight="0.0" prefWidth="326.0">
                            <children>
                               <Label prefHeight="17.0" prefWidth="73.0" text="Freq départ" />
-                              <TextField prefHeight="25.0" prefWidth="62.0" promptText="1000" text="1000" />
+                              <TextField fx:id="param_step_pwmd" prefHeight="25.0" prefWidth="62.0" promptText="1000" text="1000" />
                               <Label prefHeight="17.0" prefWidth="31.0" text="Hz" />
                               <Label layoutX="10.0" layoutY="14.0" prefHeight="17.0" prefWidth="73.0" text="Freq finale" />
-                              <TextField layoutX="83.0" layoutY="10.0" prefHeight="25.0" prefWidth="55.0" promptText="1000" text="5000" />
+                              <TextField fx:id="param_step_pwmf" layoutX="83.0" layoutY="10.0" prefHeight="25.0" prefWidth="55.0" promptText="1000" text="5000" />
                               <Label layoutX="149.0" layoutY="14.0" prefHeight="17.0" prefWidth="31.0" text="Hz" />
                            </children>
                         </HBox>
@@ -197,16 +209,19 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="881.0">
                <children>
-                  <RadioButton mnemonicParsing="false" prefHeight="17.0" prefWidth="95.0" selected="true" text="Nouveau" />
-                  <RadioButton mnemonicParsing="false" prefHeight="17.0" prefWidth="70.0" text="Modifier" />
+                  <RadioButton fx:id="step_prog_radios_new" mnemonicParsing="false" prefHeight="17.0" prefWidth="95.0" selected="true" text="Nouveau">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="step_prog_radios" />
+                     </toggleGroup></RadioButton>
+                  <RadioButton fx:id="step_prog_radios_mod" mnemonicParsing="false" prefHeight="17.0" prefWidth="70.0" text="Modifier" toggleGroup="$step_prog_radios" />
                   <Label text="étape index n°" />
-                  <TextField prefHeight="25.0" prefWidth="31.0" promptText="0" />
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="286.0" text="Afficher">
+                  <TextField fx:id="modify_step_index_input" prefHeight="25.0" prefWidth="31.0" promptText="0" />
+                  <Button mnemonicParsing="false" onAction="#ShowStepDetails" prefHeight="25.0" prefWidth="286.0" text="Afficher">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button layoutX="303.0" layoutY="11.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="302.0" text="Valider" />
+                  <Button layoutX="303.0" layoutY="11.0" mnemonicParsing="false" onAction="#SaveStepDetails" prefHeight="25.0" prefWidth="302.0" text="Valider" />
                </children>
             </HBox>
             <Separator prefWidth="200.0" />
@@ -263,12 +278,12 @@
                            </children>
                         </VBox>
                         <Separator orientation="VERTICAL" prefHeight="88.0" prefWidth="14.0" />
-                        <VBox alignment="CENTER_LEFT" disable="true" layoutX="10.0" layoutY="10.0" prefHeight="96.0" prefWidth="315.0" spacing="10.0">
+                        <VBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="96.0" prefWidth="315.0" spacing="10.0">
                            <children>
                               <HBox alignment="CENTER_LEFT" prefHeight="15.0" prefWidth="314.0" spacing="10.0">
                                  <children>
                                     <CheckBox mnemonicParsing="false" text="Vitesse automatique" />
-                                    <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Programmer vitesse" />
+                                    <Button mnemonicParsing="false" onAction="#GoToVitParam" prefHeight="25.0" prefWidth="141.0" text="Programmer vitesse" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="29.0" prefWidth="315.0" spacing="5.0">

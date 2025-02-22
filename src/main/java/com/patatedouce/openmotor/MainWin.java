@@ -3,9 +3,14 @@ package com.patatedouce.openmotor;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.stage.Window;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.charset.StandardCharsets;
 import java.io.IOException;
 
 public class MainWin extends Application {

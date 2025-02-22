@@ -8,6 +8,12 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import java.io.IOException;
 import com.fazecast.jSerialComm.*;
+import javafx.stage.Window;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.charset.StandardCharsets;
 
 
 public class MainController {
@@ -17,10 +23,28 @@ public class MainController {
     @FXML private ComboBox<String> portList;
     @FXML private TextField com_status;
 
+    public static final Path JSON_PATH = Paths.get(System.getProperty("user.home"), "openmotor", "save.json");
+
     @FXML
     public void initialize() {
         for (SerialPort port : SerialPort.getCommPorts()) {
             portList.getItems().add(port.getSystemPortName());
+        }
+
+        ensureJsonFileExists();
+    }
+
+    private static void ensureJsonFileExists() {
+        try {
+            // Crée le dossier s'il n'existe pas
+            Files.createDirectories(JSON_PATH.getParent());
+
+            // Crée le fichier avec un contenu vide s'il n'existe pas
+            if (!Files.exists(JSON_PATH)) {
+                Files.writeString(JSON_PATH, "{\"chaines\": []}", StandardCharsets.UTF_8);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
