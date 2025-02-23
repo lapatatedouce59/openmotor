@@ -1,5 +1,6 @@
 package com.patatedouce.openmotor;
 
+import com.almasb.fxgl.core.collection.Array;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,6 +11,9 @@ import javafx.stage.Window;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import javafx.util.Callback;
+import java.util.concurrent.atomic.AtomicReference;
+import javafx.concurrent.Task;
+import javafx.application.Platform;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -438,6 +442,171 @@ public class SimuControler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+
+
+
+
+
+
+    @FXML private TextField simu_apply_index;
+    @FXML private TextField simu_applied_index;
+    @FXML private TextField status_simu;
+    @FXML private TextField simu_wait_ms;
+    @FXML private TextField simu_speed;
+
+    @FXML private Slider duty_cycle_slider;
+
+    private final AtomicReference<JSONObject> CurrentChaine = new AtomicReference<>(null);
+    private boolean SimulationLoop = false;
+    private Thread simulationThread;
+    private volatile int waitSendLoop = 50;
+
+    private long lastUpdateTimeJavaFX = 0;
+    private final long minWaitJavaFXNano = 250_000_000; //le pas executer le runLater à chaque calculs
+
+    @FXML void StartSimulation() {
+        /*if(SimulationLoop){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Attention");
+            alert.setHeaderText(null);
+            alert.setContentText("Une simulation est déjà en cours.");
+            alert.show();
+            return;
+        }*/
+        JSONObject jsonObject = getGlobalJson();
+        JSONArray chaines = jsonObject.getJSONArray("chaines");
+
+        if(Objects.equals(simu_apply_index.getText(), "") || Integer.parseInt(simu_apply_index.getText())>chaines.length()-1){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Attention");
+            alert.setHeaderText(null);
+            alert.setContentText("Vous n'avez pas renseigné d'index de chaine valide. Impossible d'appliquer la chaine.");
+            alert.show();
+        } else {
+            JSONObject activeChaine = chaines.getJSONObject(Integer.parseInt(simu_apply_index.getText()));
+            CurrentChaine.set(activeChaine);
+            simu_applied_index.setText(simu_apply_index.getText());
+            status_simu.setStyle("-fx-text-fill: green;");
+            SimulationLoop=true;
+
+            Task<Void> simulationTask = new Task<>() {
+                @Override
+                protected Void call() {
+                    while (SimulationLoop) {
+
+                        JSONObject CalcChaine = CurrentChaine.get();
+
+                        JSONArray CalcStep = new JSONArray();
+
+                        double CalcVitesse = (duty_cycle_slider.getValue()/100)*Integer.parseInt(CalcChaine.get("vmax").toString());
+
+                        for (int i = 0; i < CalcChaine.getJSONArray("steps").length(); i++) {
+                            JSONObject step = CalcChaine.getJSONArray("steps").getJSONObject(i);
+                            if(CalcVitesse>=Integer.parseInt(step.get("vfrom").toString()) && CalcVitesse< Integer.parseInt(step.get("vto").toString())){
+                                CalcStep.put(step);
+                            }
+                        }
+
+                        boolean showNoStepAlarm = false;
+                        boolean showStepDefAlarm = false;
+
+                        if(CalcStep.isEmpty()){
+                            showNoStepAlarm=true;
+                        } else if (CalcStep.length()>1){
+                            showStepDefAlarm=true;
+                        }
+
+                        if(!showNoStepAlarm){
+                            JSONObject CurrentStep = CalcStep.getJSONObject(0);
+
+                            //int CalcVitInt = (int) Math.floor(CalcVitesse);
+                            double MaxStepVit = CurrentStep.getInt("vto")-CurrentStep.getInt("vfrom");
+                            double AdvStepVit = CalcVitesse-CurrentStep.getInt("vfrom");
+                            double adv_vit_step = AdvStepVit/MaxStepVit;
+
+                            double pwm_step = ((CurrentStep.getInt("pmwto")-CurrentStep.getInt("pmwfrom"))*adv_vit_step)+CurrentStep.getInt("pmwfrom");
+                            double clk_step = ((CurrentStep.getInt("clkdivto")-CurrentStep.getInt("clkdivfrom"))*adv_vit_step)+CurrentStep.getInt("clkdivfrom");
+                            int add_duty = (CalcChaine.getInt("duty_start")/65535)*100;
+                            double fin_duty = duty_cycle_slider.getValue()+add_duty;
+
+
+                        }
+
+
+
+                        long now = System.nanoTime();
+                        if(now - lastUpdateTimeJavaFX >= minWaitJavaFXNano){
+                            lastUpdateTimeJavaFX = now;
+                            // les mises à jour de l'interface doivent être faites sur le JavaFX Thread
+                            Platform.runLater(() -> {
+                                //maj interface
+                                simu_speed.setText(String.format("%.2f", CalcVitesse));
+                                //TODO appliquer les alarmes et maj de la vitesse
+                                //TODO changer les valeurs dans le tableau de bas de page
+                            });
+                        }
+
+
+
+
+                        // pause pour éviter de surcharger le CPU
+                        try {
+                            Thread.sleep(waitSendLoop);
+                        } catch (InterruptedException e) {
+                            break;
+                        }
+                    }
+                    return null;
+                }
+            };
+
+            if(simulationThread == null){
+                simulationThread = new Thread(simulationTask);
+                simulationThread.setDaemon(true); // s'arrête quand l'application ferme
+                simulationThread.start();
+            }
+        }
+    }
+
+    @FXML void StopSimulation() {
+        if(!SimulationLoop){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Aucune chaine en cours.");
+            alert.show();
+        } else {
+            CurrentChaine.set(null);
+            simu_applied_index.setText("");
+            status_simu.setStyle("-fx-text-fill: black;");
+            SimulationLoop=false;
+            if (simulationThread != null) {
+                simulationThread.interrupt();
+                simulationThread=null;
+            }
+        }
+    }
+
+    @FXML void SetWaitSimu() {
+        if(Objects.equals(simu_wait_ms.getText(), "")){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Attention");
+            alert.setHeaderText(null);
+            alert.setContentText("Aucune valeur n'a été renseigné.");
+            alert.show();
+            return;
+        } else if (Integer.parseInt(simu_wait_ms.getText())<10){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Attention");
+            alert.setHeaderText(null);
+            alert.setContentText("La valeur renseignée est trop petite (risque de surcharge).");
+            alert.show();
+            return;
+        }
+        waitSendLoop=Integer.parseInt(simu_wait_ms.getText());
     }
 
 

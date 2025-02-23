@@ -5,12 +5,12 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="TOP_CENTER" prefHeight="797.0" prefWidth="921.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.patatedouce.openmotor.SimuControler">
+<VBox alignment="TOP_CENTER" prefHeight="813.0" prefWidth="921.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.patatedouce.openmotor.SimuControler">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
    <children>
-      <VBox prefHeight="763.0" prefWidth="881.0" spacing="20.0">
+      <VBox prefHeight="784.0" prefWidth="881.0" spacing="20.0">
          <children>
             <HBox prefHeight="168.0" prefWidth="881.0">
                <children>
@@ -239,12 +239,12 @@
                               <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="832.0">
                                  <children>
                                     <Label prefHeight="17.0" prefWidth="100.0" text="Mission vitesse" />
-                                    <Slider blockIncrement="1.0" majorTickUnit="20.0" minorTickCount="4" prefHeight="38.0" prefWidth="261.0" showTickLabels="true" showTickMarks="true" />
+                                    <Slider fx:id="duty_cycle_slider" blockIncrement="1.0" majorTickUnit="20.0" minorTickCount="4" prefHeight="38.0" prefWidth="261.0" showTickLabels="true" showTickMarks="true" />
                                     <Label prefHeight="17.0" prefWidth="33.0" text="100%" />
                                     <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="138.0">
                                        <children>
                                           <Label prefHeight="17.0" prefWidth="53.0" text="Vitesse" />
-                                          <TextField editable="false" prefHeight="25.0" prefWidth="49.0" promptText="Vitesse" text="0" />
+                                          <TextField fx:id="simu_speed" editable="false" prefHeight="25.0" prefWidth="49.0" promptText="Vitesse" text="0" />
                                           <Label prefHeight="17.0" prefWidth="31.0" text="km/h" />
                                        </children>
                                        <HBox.margin>
@@ -256,8 +256,8 @@
                               <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="526.0">
                                  <children>
                                     <Label prefHeight="17.0" prefWidth="71.0" text="Appliquer n°" />
-                                    <TextField prefHeight="25.0" prefWidth="35.0" />
-                                    <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="102.0" text="Confirmer">
+                                    <TextField fx:id="simu_apply_index" prefHeight="25.0" prefWidth="35.0" />
+                                    <Button mnemonicParsing="false" onAction="#StartSimulation" prefHeight="25.0" prefWidth="102.0" text="Confirmer">
                                        <HBox.margin>
                                           <Insets left="10.0" />
                                        </HBox.margin>
@@ -267,8 +267,20 @@
                                           <Insets left="10.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <TextField editable="false" layoutX="81.0" layoutY="15.0" prefHeight="25.0" prefWidth="35.0" />
-                                    <Button layoutX="126.0" layoutY="15.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="102.0" text="Stop">
+                                    <TextField fx:id="simu_applied_index" editable="false" layoutX="81.0" layoutY="15.0" prefHeight="25.0" prefWidth="35.0" />
+                                    <Button layoutX="126.0" layoutY="15.0" mnemonicParsing="false" onAction="#StopSimulation" prefHeight="25.0" prefWidth="102.0" text="Stop">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="48.0" prefHeight="35.0" prefWidth="526.0">
+                                 <children>
+                                    <Label prefHeight="17.0" prefWidth="101.0" text="Pause fréquence:" />
+                                    <TextField fx:id="simu_wait_ms" prefHeight="25.0" prefWidth="35.0" text="50" />
+                                    <Label layoutX="10.0" layoutY="18.0" prefHeight="17.0" prefWidth="25.0" text="ms" />
+                                    <Button mnemonicParsing="false" onAction="#SetWaitSimu" prefHeight="25.0" prefWidth="102.0" text="Appliquer">
                                        <HBox.margin>
                                           <Insets left="10.0" />
                                        </HBox.margin>
@@ -278,7 +290,7 @@
                            </children>
                         </VBox>
                         <Separator orientation="VERTICAL" prefHeight="88.0" prefWidth="14.0" />
-                        <VBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="96.0" prefWidth="315.0" spacing="10.0">
+                        <VBox alignment="CENTER_LEFT" disable="true" layoutX="10.0" layoutY="10.0" prefHeight="96.0" prefWidth="315.0" spacing="10.0">
                            <children>
                               <HBox alignment="CENTER_LEFT" prefHeight="15.0" prefWidth="314.0" spacing="10.0">
                                  <children>
@@ -306,7 +318,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="21.0" prefWidth="881.0" spacing="10.0">
                      <children>
-                        <TextField alignment="CENTER" editable="false" prefHeight="25.0" prefWidth="158.0" text="Simulation en cours" />
+                        <TextField fx:id="status_simu" alignment="CENTER" editable="false" prefHeight="25.0" prefWidth="158.0" text="Simulation en cours" />
                         <TextField alignment="CENTER" editable="false" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="158.0" text="Défaut étape" />
                         <TextField alignment="CENTER" editable="false" layoutX="168.0" layoutY="10.0" prefHeight="25.0" prefWidth="158.0" text="Pas d'étape" />
                         <TextField alignment="CENTER" editable="false" layoutX="540.0" layoutY="10.0" prefHeight="25.0" prefWidth="158.0" text="Vitesse auto" />
@@ -315,15 +327,15 @@
                         <Insets bottom="10.0" top="10.0" />
                      </VBox.margin>
                   </HBox>
-                  <TableView prefHeight="58.0" prefWidth="881.0">
+                  <TableView prefHeight="69.0" prefWidth="881.0">
                      <columns>
                         <TableColumn prefWidth="44.0" text="Index" />
                         <TableColumn prefWidth="53.0" text="Clkdiv" />
                         <TableColumn prefWidth="58.0" text="PWM" />
                         <TableColumn prefWidth="58.0" text="Duty Div" />
                         <TableColumn prefWidth="82.0" text="Duty Cycle" />
-                        <TableColumn prefWidth="152.0" text="Label" />
-                        <TableColumn prefWidth="176.0" text="Label" />
+                        <TableColumn prefWidth="215.0" text="Nom chaine" />
+                        <TableColumn prefWidth="368.0" text="Label étape" />
                      </columns>
                   </TableView>
                </children>
