@@ -69,4 +69,14 @@ public class SerialConnection {
             }
         });
     }
+
+    public boolean sendData(String data) {
+        if (serialPort == null || !serialPort.isOpen()) {
+            return false;
+        }
+
+        byte[] dataBytes = data.getBytes();
+        int bytesWritten = serialPort.writeBytes(dataBytes, dataBytes.length);
+        return bytesWritten == dataBytes.length;
+    }
 }

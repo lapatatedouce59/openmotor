@@ -450,6 +450,7 @@ public class SimuControler {
 
 
 
+    int INCREMENT_CALL = 0;
 
     @FXML private TextField simu_apply_index;
     @FXML private TextField simu_applied_index;
@@ -532,7 +533,13 @@ public class SimuControler {
                             int add_duty = (CalcChaine.getInt("duty_start")/65535)*100;
                             double fin_duty = duty_cycle_slider.getValue()+add_duty;
 
+                            System.out.println(INCREMENT_CALL);
+                            System.out.println(serialConnection.sendData("PW"+String.format("%.0f",pwm_step)+"\n"));
+                            System.out.println(serialConnection.sendData("CK"+String.format("%.2f",clk_step)+"\n"));
+                            System.out.println(serialConnection.sendData("DC"+String.format("%.2f",fin_duty)+"\n"));
+                            System.out.println(serialConnection.sendData("DD"+String.format("%.2f",Float.parseFloat(param_step_div.getText()))+"\n"));
 
+                            INCREMENT_CALL++;
                         }
 
 
