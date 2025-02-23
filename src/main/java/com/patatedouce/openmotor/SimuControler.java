@@ -57,6 +57,16 @@ public class SimuControler {
     @FXML private TableColumn<Map<String, Object>, String> divStepColumn;
     private final ObservableList<Map<String, Object>> dataTableStep = FXCollections.observableArrayList();
 
+    @FXML private TableView<Map<String, Object>> tableSimu;
+    @FXML private TableColumn<Map<String, Object>, String> indexSimuColumn;
+    @FXML private TableColumn<Map<String, Object>, String> clkSimuColumn;
+    @FXML private TableColumn<Map<String, Object>, String> pwmSimuColumn;
+    @FXML private TableColumn<Map<String, Object>, String> divSimuColumn;
+    @FXML private TableColumn<Map<String, Object>, String> dutySimuColumn;
+    @FXML private TableColumn<Map<String, Object>, String> nameSimuColumn;
+    @FXML private TableColumn<Map<String, Object>, String> labelSimuColumn;
+    private final ObservableList<Map<String, Object>> dataTableSimu = FXCollections.observableArrayList();
+
 
     private SerialConnection serialConnection = SerialConnection.getInstance();
 
@@ -149,6 +159,19 @@ public class SimuControler {
             row.put("div", stepsObj.getFloat("duty_div"));
             dataTableStep.add(row);
         }
+    }
+
+    private void LoadSimuTable(){
+        indexSimuColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get("id").toString()));
+        clkSimuColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get("clk").toString()));
+        pwmSimuColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get("pwm").toString()));
+        divSimuColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get("div").toString()));
+        dutySimuColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get("duty").toString()));
+        nameSimuColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get("name").toString()));
+        labelSimuColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get("label").toString()));
+
+        // Ajouter les données au TableView
+        tableSimu.setItems(dataTableSimu);
     }
 
     @FXML private TextField modify_chaine_index_input;
@@ -455,6 +478,8 @@ public class SimuControler {
     @FXML private TextField simu_apply_index;
     @FXML private TextField simu_applied_index;
     @FXML private TextField status_simu;
+    @FXML private TextField status_simu_defStep;
+    @FXML private TextField status_simu_noStep;
     @FXML private TextField simu_wait_ms;
     @FXML private TextField simu_speed;
 
@@ -511,14 +536,17 @@ public class SimuControler {
                             }
                         }
 
-                        boolean showNoStepAlarm = false;
-                        boolean showStepDefAlarm = false;
+                        boolean showNoStepAlarm;
+                        boolean showStepDefAlarm;
 
-                        if(CalcStep.isEmpty()){
-                            showNoStepAlarm=true;
-                        } else if (CalcStep.length()>1){
-                            showStepDefAlarm=true;
-                        }
+                        showNoStepAlarm = CalcStep.isEmpty();
+                        showStepDefAlarm = CalcStep.length() > 1;
+
+                        double pwm_step;
+                        double clk_step;
+                        double fin_duty;
+                        double div_step;
+                        String step_lbl;
 
                         if(!showNoStepAlarm){
                             JSONObject CurrentStep = CalcStep.getJSONObject(0);
@@ -528,18 +556,27 @@ public class SimuControler {
                             double AdvStepVit = CalcVitesse-CurrentStep.getInt("vfrom");
                             double adv_vit_step = AdvStepVit/MaxStepVit;
 
-                            double pwm_step = ((CurrentStep.getInt("pmwto")-CurrentStep.getInt("pmwfrom"))*adv_vit_step)+CurrentStep.getInt("pmwfrom");
-                            double clk_step = ((CurrentStep.getInt("clkdivto")-CurrentStep.getInt("clkdivfrom"))*adv_vit_step)+CurrentStep.getInt("clkdivfrom");
-                            int add_duty = (CalcChaine.getInt("duty_start")/65535)*100;
-                            double fin_duty = duty_cycle_slider.getValue()+add_duty;
+                            pwm_step = ((CurrentStep.getInt("pmwto")-CurrentStep.getInt("pmwfrom"))*adv_vit_step)+CurrentStep.getInt("pmwfrom");
+                            clk_step = ((CurrentStep.getInt("clkdivto")-CurrentStep.getInt("clkdivfrom"))*adv_vit_step)+CurrentStep.getInt("clkdivfrom");
+                            double add_duty_first = (CalcChaine.getInt("duty_start")/65535.0);
+                            double add_duty = add_duty_first*100;
+                            fin_duty = Math.min(duty_cycle_slider.getValue()+add_duty,100.0);
+                            div_step=Float.parseFloat(CurrentStep.get("duty_div").toString());
+                            step_lbl=CurrentStep.getString("label");
 
                             System.out.println(INCREMENT_CALL);
-                            System.out.println(serialConnection.sendData("PW"+String.format("%.0f",pwm_step)+"\n"));
-                            System.out.println(serialConnection.sendData("CK"+String.format("%.2f",clk_step)+"\n"));
-                            System.out.println(serialConnection.sendData("DC"+String.format("%.2f",fin_duty)+"\n"));
-                            System.out.println(serialConnection.sendData("DD"+String.format("%.2f",Float.parseFloat(param_step_div.getText()))+"\n"));
+                            serialConnection.sendData("PW"+String.format("%.0f",pwm_step)+"\n");
+                            serialConnection.sendData("CK"+String.format("%.2f",clk_step)+"\n");
+                            serialConnection.sendData("DC"+String.format("%.2f",fin_duty)+"\n");
+                            serialConnection.sendData("DD"+String.format("%.2f",Float.parseFloat(CurrentStep.get("duty_div").toString()))+"\n");
 
                             INCREMENT_CALL++;
+                        } else {
+                            pwm_step=0;
+                            clk_step=0;
+                            fin_duty=0;
+                            div_step=0;
+                            step_lbl="Inconnu";
                         }
 
 
@@ -551,8 +588,29 @@ public class SimuControler {
                             Platform.runLater(() -> {
                                 //maj interface
                                 simu_speed.setText(String.format("%.2f", CalcVitesse));
-                                //TODO appliquer les alarmes et maj de la vitesse
-                                //TODO changer les valeurs dans le tableau de bas de page
+                                if(showNoStepAlarm){
+                                    status_simu_noStep.setStyle("-fx-text-fill: red;");
+                                } else {
+                                    status_simu_noStep.setStyle("-fx-text-fill: black;");
+                                }
+                                if(showStepDefAlarm){
+                                    status_simu_defStep.setStyle("-fx-text-fill: red;");
+                                } else {
+                                    status_simu_defStep.setStyle("-fx-text-fill: black;");
+                                }
+
+
+                                dataTableSimu.clear();
+                                Map<String, Object> row = new HashMap<>();
+                                row.put("id", simu_applied_index.getText());
+                                row.put("clk", String.format("%.2f",clk_step));
+                                row.put("pwm", String.format("%.0f",pwm_step));
+                                row.put("div", String.format("%.2f",div_step));
+                                row.put("duty", String.format("%.2f",fin_duty));
+                                row.put("name", CurrentChaine.get().getString("name"));
+                                row.put("label", step_lbl);
+                                dataTableSimu.add(row);
+                                LoadSimuTable();
                             });
                         }
 
@@ -590,6 +648,10 @@ public class SimuControler {
             simu_applied_index.setText("");
             status_simu.setStyle("-fx-text-fill: black;");
             SimulationLoop=false;
+            serialConnection.sendData("PW500\n");
+            serialConnection.sendData("CK0.0\n");
+            serialConnection.sendData("DC0.0\n");
+            serialConnection.sendData("DD1\n");
             if (simulationThread != null) {
                 simulationThread.interrupt();
                 simulationThread=null;

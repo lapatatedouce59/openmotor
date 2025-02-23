@@ -60,7 +60,7 @@
                         <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="290.0">
                            <children>
                               <Label prefHeight="17.0" prefWidth="73.0" text="Vitesse max" />
-                              <TextField fx:id="param_chaine_vmax" prefHeight="25.0" prefWidth="49.0" promptText="80" text="80" />
+                              <TextField fx:id="param_chaine_vmax" prefHeight="25.0" prefWidth="49.0" promptText="80" />
                               <Label prefHeight="17.0" prefWidth="31.0" text="km/h" />
                            </children>
                         </HBox>
@@ -71,7 +71,7 @@
                                  <toggleGroup>
                                     <ToggleGroup fx:id="param_chaine_duty_start_radio" />
                                  </toggleGroup></RadioButton>
-                              <TextField fx:id="param_chaine_duty_start" prefHeight="25.0" prefWidth="150.0" promptText="Duty Cycle + Duty Start" text="0" />
+                              <TextField fx:id="param_chaine_duty_start" prefHeight="25.0" prefWidth="150.0" promptText="Duty Cycle + Duty Start" />
                               <RadioButton fx:id="param_chaine_duty_start_radio_off" mnemonicParsing="false" prefHeight="17.0" prefWidth="47.0" selected="true" text="Off" toggleGroup="$param_chaine_duty_start_radio">
                                  <HBox.margin>
                                     <Insets left="10.0" />
@@ -158,17 +158,17 @@
                         <HBox alignment="CENTER_LEFT" prefHeight="3.0" prefWidth="326.0">
                            <children>
                               <Label prefHeight="17.0" prefWidth="73.0" text="Vit départ" />
-                              <TextField fx:id="param_step_vd" prefHeight="25.0" prefWidth="49.0" promptText="30" text="0" />
+                              <TextField fx:id="param_step_vd" prefHeight="25.0" prefWidth="49.0" promptText="30" />
                               <Label prefHeight="17.0" prefWidth="31.0" text="km/h" />
                               <Label layoutX="10.0" layoutY="14.0" prefHeight="17.0" prefWidth="73.0" text="Vit finale (ex)" />
-                              <TextField fx:id="param_step_vf" layoutX="83.0" layoutY="10.0" prefHeight="25.0" prefWidth="46.0" promptText="60" text="20" />
+                              <TextField fx:id="param_step_vf" layoutX="83.0" layoutY="10.0" prefHeight="25.0" prefWidth="46.0" promptText="60" />
                               <Label layoutX="149.0" layoutY="14.0" prefHeight="17.0" prefWidth="31.0" text="km/h" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="290.0">
                            <children>
                               <Label prefHeight="17.0" prefWidth="73.0" text="Duty diviser" />
-                              <TextField fx:id="param_step_div" prefHeight="25.0" prefWidth="174.0" promptText="Duty Cycle / Duty Diviser" text="1" />
+                              <TextField fx:id="param_step_div" prefHeight="25.0" prefWidth="174.0" promptText="Duty Cycle / Duty Diviser" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="78.0" prefHeight="0.0" prefWidth="290.0">
@@ -181,7 +181,7 @@
                            <children>
                               <Label prefHeight="17.0" prefWidth="76.0" text="Clkdiv départ" />
                               <Label text="0&lt;" />
-                              <TextField fx:id="param_step_clkdivd" prefHeight="25.0" prefWidth="41.0" promptText="1.0" text="1.0" />
+                              <TextField fx:id="param_step_clkdivd" prefHeight="25.0" prefWidth="41.0" promptText="1.0" />
                               <Label prefHeight="17.0" prefWidth="53.0" text="&lt;=256" />
                            </children>
                         </HBox>
@@ -189,17 +189,17 @@
                            <children>
                               <Label prefHeight="17.0" prefWidth="76.0" text="Clkdiv finale" />
                               <Label text="0&lt;" />
-                              <TextField fx:id="param_step_clkdivf" prefHeight="25.0" prefWidth="41.0" promptText="1.0" text="1.0" />
+                              <TextField fx:id="param_step_clkdivf" prefHeight="25.0" prefWidth="41.0" promptText="1.0" />
                               <Label prefHeight="17.0" prefWidth="53.0" text="&lt;=256" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="192.0" prefHeight="0.0" prefWidth="326.0">
                            <children>
                               <Label prefHeight="17.0" prefWidth="73.0" text="Freq départ" />
-                              <TextField fx:id="param_step_pwmd" prefHeight="25.0" prefWidth="62.0" promptText="1000" text="1000" />
+                              <TextField fx:id="param_step_pwmd" prefHeight="25.0" prefWidth="62.0" promptText="1000" />
                               <Label prefHeight="17.0" prefWidth="31.0" text="Hz" />
                               <Label layoutX="10.0" layoutY="14.0" prefHeight="17.0" prefWidth="73.0" text="Freq finale" />
-                              <TextField fx:id="param_step_pwmf" layoutX="83.0" layoutY="10.0" prefHeight="25.0" prefWidth="55.0" promptText="1000" text="5000" />
+                              <TextField fx:id="param_step_pwmf" layoutX="83.0" layoutY="10.0" prefHeight="25.0" prefWidth="55.0" promptText="5000" />
                               <Label layoutX="149.0" layoutY="14.0" prefHeight="17.0" prefWidth="31.0" text="Hz" />
                            </children>
                         </HBox>
@@ -319,23 +319,23 @@
                   <HBox alignment="CENTER" prefHeight="21.0" prefWidth="881.0" spacing="10.0">
                      <children>
                         <TextField fx:id="status_simu" alignment="CENTER" editable="false" prefHeight="25.0" prefWidth="158.0" text="Simulation en cours" />
-                        <TextField alignment="CENTER" editable="false" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="158.0" text="Défaut étape" />
-                        <TextField alignment="CENTER" editable="false" layoutX="168.0" layoutY="10.0" prefHeight="25.0" prefWidth="158.0" text="Pas d'étape" />
+                        <TextField fx:id="status_simu_defStep" alignment="CENTER" editable="false" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="158.0" text="Défaut étape" />
+                        <TextField fx:id="status_simu_noStep" alignment="CENTER" editable="false" layoutX="168.0" layoutY="10.0" prefHeight="25.0" prefWidth="158.0" text="Pas d'étape" />
                         <TextField alignment="CENTER" editable="false" layoutX="540.0" layoutY="10.0" prefHeight="25.0" prefWidth="158.0" text="Vitesse auto" />
                      </children>
                      <VBox.margin>
                         <Insets bottom="10.0" top="10.0" />
                      </VBox.margin>
                   </HBox>
-                  <TableView prefHeight="69.0" prefWidth="881.0">
+                  <TableView fx:id="tableSimu" prefHeight="69.0" prefWidth="881.0">
                      <columns>
-                        <TableColumn prefWidth="44.0" text="Index" />
-                        <TableColumn prefWidth="53.0" text="Clkdiv" />
-                        <TableColumn prefWidth="58.0" text="PWM" />
-                        <TableColumn prefWidth="58.0" text="Duty Div" />
-                        <TableColumn prefWidth="82.0" text="Duty Cycle" />
-                        <TableColumn prefWidth="215.0" text="Nom chaine" />
-                        <TableColumn prefWidth="368.0" text="Label étape" />
+                        <TableColumn fx:id="indexSimuColumn" prefWidth="44.0" text="Index" />
+                        <TableColumn fx:id="clkSimuColumn" prefWidth="53.0" text="Clkdiv" />
+                        <TableColumn fx:id="pwmSimuColumn" prefWidth="58.0" text="PWM" />
+                        <TableColumn fx:id="divSimuColumn" prefWidth="58.0" text="Duty Div" />
+                        <TableColumn fx:id="dutySimuColumn" prefWidth="82.0" text="Duty Cycle" />
+                        <TableColumn fx:id="nameSimuColumn" prefWidth="215.0" text="Nom chaine" />
+                        <TableColumn fx:id="labelSimuColumn" prefWidth="368.0" text="Label étape" />
                      </columns>
                   </TableView>
                </children>
