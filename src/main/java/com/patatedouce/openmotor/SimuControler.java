@@ -54,7 +54,8 @@ public class SimuControler {
     @FXML private TableColumn<Map<String, Object>, String> pwmfStepColumn;
     @FXML private TableColumn<Map<String, Object>, String> clkdivdStepColumn;
     @FXML private TableColumn<Map<String, Object>, String> clkdivfStepColumn;
-    @FXML private TableColumn<Map<String, Object>, String> divStepColumn;
+    @FXML private TableColumn<Map<String, Object>, String> DCdStepColumn;
+    @FXML private TableColumn<Map<String, Object>, String> DCfStepColumn;
     private final ObservableList<Map<String, Object>> dataTableStep = FXCollections.observableArrayList();
 
     @FXML private TableView<Map<String, Object>> tableSimu;
@@ -131,7 +132,8 @@ public class SimuControler {
         pwmfStepColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get("pwmf").toString()));
         clkdivdStepColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get("clkdivd").toString()));
         clkdivfStepColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get("clkdivf").toString()));
-        divStepColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get("div").toString()));
+        DCdStepColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get("dcd").toString()));
+        DCfStepColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get("dcf").toString()));
 
         // Charger les données JSON
         loadJsonDataStep(MainController.JSON_PATH.toString());
@@ -156,7 +158,9 @@ public class SimuControler {
             row.put("pwmf", stepsObj.getInt("pmwto"));
             row.put("clkdivd", stepsObj.getFloat("clkdivfrom"));
             row.put("clkdivf", stepsObj.getFloat("clkdivto"));
-            row.put("div", stepsObj.getFloat("duty_div"));
+            //row.put("div", stepsObj.getFloat("duty_div"));
+            row.put("dcd", stepsObj.getFloat("dcfrom"));
+            row.put("dcf", stepsObj.getFloat("dcto"));
             dataTableStep.add(row);
         }
     }
@@ -302,6 +306,10 @@ public class SimuControler {
     @FXML private TextField param_step_clkdivf;
     @FXML private TextField param_step_pwmd;
     @FXML private TextField param_step_pwmf;
+    @FXML private TextField param_step_dcd;
+    @FXML private TextField param_step_dcf;
+    @FXML private TextField param_step_auto_dcd;
+    @FXML private TextField param_step_auto_dcf;
 
     @FXML private RadioButton step_prog_radios_new;
     @FXML private RadioButton step_prog_radios_mod;
@@ -319,6 +327,7 @@ public class SimuControler {
             return;
         }
 
+        JSONObject chaine = chaines.getJSONObject(Integer.parseInt(modify_chaine_index_input.getText()));
         JSONArray steps = chaines.getJSONObject(Integer.parseInt(modify_chaine_index_input.getText())).getJSONArray("steps");
 
         if(Objects.equals(modify_step_index_input.getText(), "") || Integer.parseInt(modify_step_index_input.getText())>steps.length()-1){
@@ -337,6 +346,12 @@ public class SimuControler {
             param_step_clkdivf.setText(step.get("clkdivto").toString());
             param_step_pwmd.setText(step.get("pmwfrom").toString());
             param_step_pwmf.setText(step.get("pmwto").toString());
+            param_step_dcd.setText(step.get("dcfrom").toString());
+            param_step_dcf.setText(step.get("dcto").toString());
+            float auto_dcd = (Float.parseFloat(step.get("vfrom").toString())/chaine.getInt("vmax"))*100;
+            float auto_dcf = (Float.parseFloat(step.get("vto").toString())/chaine.getInt("vmax"))*100;
+            param_step_auto_dcd.setText(String.format("%.1f",auto_dcd));
+            param_step_auto_dcf.setText(String.format("%.1f",auto_dcf));
         }
     }
 
@@ -370,6 +385,8 @@ public class SimuControler {
                 step.put("pmwto",Integer.parseInt(param_step_pwmf.getText()));
                 step.put("clkdivfrom",Float.parseFloat(param_step_clkdivd.getText()));
                 step.put("clkdivto",Float.parseFloat(param_step_clkdivf.getText()));
+                step.put("dcfrom",Float.parseFloat(param_step_dcd.getText()));
+                step.put("dcto",Float.parseFloat(param_step_dcf.getText()));
             } else {
                 JSONArray steps = chaines.getJSONObject(Integer.parseInt(modify_chaine_index_input.getText())).getJSONArray("steps");
                 JSONObject step = new JSONObject();
@@ -381,6 +398,8 @@ public class SimuControler {
                 step.put("pmwto",Integer.parseInt(param_step_pwmf.getText()));
                 step.put("clkdivfrom",Float.parseFloat(param_step_clkdivd.getText()));
                 step.put("clkdivto",Float.parseFloat(param_step_clkdivf.getText()));
+                step.put("dcfrom",Float.parseFloat(param_step_dcd.getText()));
+                step.put("dcto",Float.parseFloat(param_step_dcf.getText()));
                 steps.put(step);
             }
             if(!setGlobalJson(jsonObject)){
@@ -558,9 +577,10 @@ public class SimuControler {
 
                             pwm_step = ((CurrentStep.getInt("pmwto")-CurrentStep.getInt("pmwfrom"))*adv_vit_step)+CurrentStep.getInt("pmwfrom");
                             clk_step = ((CurrentStep.getInt("clkdivto")-CurrentStep.getInt("clkdivfrom"))*adv_vit_step)+CurrentStep.getInt("clkdivfrom");
+                            double duty_step = ((CurrentStep.getInt("dcto")-CurrentStep.getInt("dcfrom"))*adv_vit_step)+CurrentStep.getInt("dcfrom");
                             double add_duty_first = (CalcChaine.getInt("duty_start")/65535.0);
                             double add_duty = add_duty_first*100;
-                            fin_duty = Math.min(duty_cycle_slider.getValue()+add_duty,100.0);
+                            fin_duty = Math.min(duty_step+add_duty,100.0);
                             div_step=Float.parseFloat(CurrentStep.get("duty_div").toString());
                             step_lbl=CurrentStep.getString("label");
 

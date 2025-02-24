@@ -5,12 +5,12 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="TOP_CENTER" prefHeight="813.0" prefWidth="921.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.patatedouce.openmotor.SimuControler">
+<VBox alignment="TOP_CENTER" prefHeight="840.0" prefWidth="921.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.patatedouce.openmotor.SimuControler">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
    <children>
-      <VBox prefHeight="784.0" prefWidth="881.0" spacing="20.0">
+      <VBox prefHeight="798.0" prefWidth="881.0" spacing="20.0">
          <children>
             <HBox prefHeight="168.0" prefWidth="881.0">
                <children>
@@ -71,7 +71,7 @@
                                  <toggleGroup>
                                     <ToggleGroup fx:id="param_chaine_duty_start_radio" />
                                  </toggleGroup></RadioButton>
-                              <TextField fx:id="param_chaine_duty_start" prefHeight="25.0" prefWidth="150.0" promptText="Duty Cycle + Duty Start" />
+                              <TextField fx:id="param_chaine_duty_start" prefHeight="25.0" prefWidth="81.0" promptText="0-&gt;65535" />
                               <RadioButton fx:id="param_chaine_duty_start_radio_off" mnemonicParsing="false" prefHeight="17.0" prefWidth="47.0" selected="true" text="Off" toggleGroup="$param_chaine_duty_start_radio">
                                  <HBox.margin>
                                     <Insets left="10.0" />
@@ -108,27 +108,28 @@
             </HBox>
             <HBox prefHeight="185.0" prefWidth="881.0">
                <children>
-                  <VBox prefHeight="213.0" prefWidth="544.0" spacing="10.0">
+                  <VBox prefHeight="169.0" prefWidth="544.0" spacing="10.0">
                      <children>
                         <Label prefHeight="23.0" prefWidth="251.0" text="Etapes programmées">
                            <font>
                               <Font name="Alef Bold" size="16.0" />
                            </font>
                         </Label>
-                        <TableView fx:id="tableStep" prefHeight="153.0" prefWidth="544.0">
+                        <TableView fx:id="tableStep" prefHeight="149.0" prefWidth="544.0">
                            <columns>
                               <TableColumn fx:id="indexStepColumn" editable="false" prefWidth="44.0" sortable="false" text="Index" />
-                              <TableColumn fx:id="labelStepColumn" editable="false" prefWidth="129.0" sortable="false" text="Label" />
+                              <TableColumn fx:id="labelStepColumn" editable="false" prefWidth="112.0" sortable="false" text="Label" />
                               <TableColumn fx:id="vdStepColumn" editable="false" prefWidth="39.0" sortable="false" text="Vd" />
-                              <TableColumn fx:id="vfStepColumn" editable="false" prefWidth="32.0" sortable="false" text="Vf" />
-                              <TableColumn fx:id="pwmdStepColumn" editable="false" prefWidth="61.0" sortable="false" text="PWMd" />
-                              <TableColumn fx:id="pwmfStepColumn" editable="false" prefWidth="58.0" sortable="false" text="PWMf" />
-                              <TableColumn fx:id="clkdivdStepColumn" editable="false" prefWidth="61.0" sortable="false" text="ClkDivd" />
-                              <TableColumn fx:id="clkdivfStepColumn" editable="false" prefWidth="58.0" sortable="false" text="ClkDivf" />
-                              <TableColumn fx:id="divStepColumn" editable="false" prefWidth="59.0" sortable="false" text="div" />
+                              <TableColumn fx:id="vfStepColumn" editable="false" prefWidth="34.0" sortable="false" text="Vf" />
+                              <TableColumn fx:id="pwmdStepColumn" editable="false" prefWidth="51.0" sortable="false" text="PWMd" />
+                              <TableColumn fx:id="pwmfStepColumn" editable="false" prefWidth="44.0" sortable="false" text="PWMf" />
+                              <TableColumn fx:id="clkdivdStepColumn" editable="false" prefWidth="59.0" sortable="false" text="ClkDivd" />
+                              <TableColumn fx:id="clkdivfStepColumn" editable="false" prefWidth="63.0" sortable="false" text="ClkDivf" />
+                              <TableColumn fx:id="DCdStepColumn" editable="false" prefWidth="51.0" sortable="false" text="DCd" />
+                              <TableColumn fx:id="DCfStepColumn" editable="false" prefWidth="44.0" sortable="false" text="DCf" />
                            </columns>
                         </TableView>
-                        <VBox alignment="CENTER_LEFT" prefHeight="41.0" prefWidth="210.0">
+                        <VBox alignment="CENTER_LEFT" prefHeight="41.0" prefWidth="544.0">
                            <children>
                               <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="329.0">
                                  <children>
@@ -143,6 +144,16 @@
                               </HBox>
                            </children>
                         </VBox>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="0.0" prefWidth="326.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="94.0" text="DtyCle dép. auto" />
+                              <TextField fx:id="param_step_auto_dcd" editable="false" prefHeight="25.0" prefWidth="54.0" />
+                              <Label prefHeight="17.0" prefWidth="31.0" text="\%" />
+                              <Label layoutX="10.0" layoutY="14.0" prefHeight="17.0" prefWidth="86.0" text="DtyCle fin. auto" />
+                              <TextField fx:id="param_step_auto_dcf" editable="false" layoutX="83.0" layoutY="10.0" prefHeight="25.0" prefWidth="48.0" />
+                              <Label layoutX="149.0" layoutY="14.0" prefHeight="17.0" prefWidth="31.0" text="\%" />
+                           </children>
+                        </HBox>
                      </children>
                      <HBox.margin>
                         <Insets right="10.0" />
@@ -168,7 +179,7 @@
                         <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="290.0">
                            <children>
                               <Label prefHeight="17.0" prefWidth="73.0" text="Duty diviser" />
-                              <TextField fx:id="param_step_div" prefHeight="25.0" prefWidth="174.0" promptText="Duty Cycle / Duty Diviser" />
+                              <TextField fx:id="param_step_div" prefHeight="25.0" prefWidth="55.0" promptText="1" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="78.0" prefHeight="0.0" prefWidth="290.0">
@@ -196,11 +207,21 @@
                         <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="192.0" prefHeight="0.0" prefWidth="326.0">
                            <children>
                               <Label prefHeight="17.0" prefWidth="73.0" text="Freq départ" />
-                              <TextField fx:id="param_step_pwmd" prefHeight="25.0" prefWidth="62.0" promptText="1000" />
+                              <TextField fx:id="param_step_pwmd" prefHeight="25.0" prefWidth="54.0" promptText="1000" />
                               <Label prefHeight="17.0" prefWidth="31.0" text="Hz" />
                               <Label layoutX="10.0" layoutY="14.0" prefHeight="17.0" prefWidth="73.0" text="Freq finale" />
                               <TextField fx:id="param_step_pwmf" layoutX="83.0" layoutY="10.0" prefHeight="25.0" prefWidth="55.0" promptText="5000" />
                               <Label layoutX="149.0" layoutY="14.0" prefHeight="17.0" prefWidth="31.0" text="Hz" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="218.0" prefHeight="0.0" prefWidth="326.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="73.0" text="DtyCle dép." />
+                              <TextField fx:id="param_step_dcd" prefHeight="25.0" prefWidth="54.0" promptText="10" />
+                              <Label prefHeight="17.0" prefWidth="31.0" text="\%" />
+                              <Label layoutX="10.0" layoutY="14.0" prefHeight="17.0" prefWidth="73.0" text="DtyCle fin." />
+                              <TextField fx:id="param_step_dcf" layoutX="83.0" layoutY="10.0" prefHeight="25.0" prefWidth="55.0" promptText="30" />
+                              <Label layoutX="149.0" layoutY="14.0" prefHeight="17.0" prefWidth="31.0" text="\%" />
                            </children>
                         </HBox>
                      </children>
@@ -327,7 +348,7 @@
                         <Insets bottom="10.0" top="10.0" />
                      </VBox.margin>
                   </HBox>
-                  <TableView fx:id="tableSimu" prefHeight="69.0" prefWidth="881.0">
+                  <TableView fx:id="tableSimu" prefHeight="91.0" prefWidth="881.0">
                      <columns>
                         <TableColumn fx:id="indexSimuColumn" prefWidth="44.0" text="Index" />
                         <TableColumn fx:id="clkSimuColumn" prefWidth="53.0" text="Clkdiv" />
