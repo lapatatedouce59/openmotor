@@ -366,7 +366,7 @@ public class SimuControler {
             alert.setContentText("Vous n'avez pas renseigné d'index de chaine valide. Impossible d'enregistrer les modifications.");
             alert.show();
             return;
-        } else if ((Objects.equals(modify_step_index_input.getText(), "") || Integer.parseInt(modify_step_index_input.getText())>chaines.length()-1) && step_prog_radios_mod.isSelected()){
+        } else if ((Objects.equals(modify_step_index_input.getText(), "") || Integer.parseInt(modify_step_index_input.getText())>chaines.getJSONObject(Integer.parseInt(modify_chaine_index_input.getText())).getJSONArray("steps").length()-1) && step_prog_radios_mod.isSelected()){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Attention");
             alert.setHeaderText(null);
